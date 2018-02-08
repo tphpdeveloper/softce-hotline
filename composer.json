@@ -1,0 +1,25 @@
+{
+    "name": "softce/hotline",
+    "description": "Create hotline xml file with product",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Igor Kutsan",
+            "email": "igorkutsan@ukr.net"
+        }
+    ],
+    "require": {
+        "php" : ">=7.0",
+        "laravel/framework": "5.5.*"
+
+    },
+    "require-dev":{
+        "phpunit/phpunit": "*"
+    },
+    "autoload":{
+        "psr-4": {
+            "Softce\\Hotline\\" : "src/"
+        }
+    }
+}
