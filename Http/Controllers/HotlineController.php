@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Softce\Hotline;
+namespace Softce\Hotline\Http\Controllers;
 
 use Illuminate\Routing\Controller;
 use Softce\Hotline\Hotline;
