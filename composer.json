@@ -19,7 +19,7 @@
     },
     "autoload":{
         "psr-4": {
-            "Softce\\Hotline\\" : "vendor/softce/hotline/"
+            "Softce\\Hotline\\" : "vendor/softce/hotline/" 
         }
     }
 }
