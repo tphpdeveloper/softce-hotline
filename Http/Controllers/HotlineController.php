@@ -12,6 +12,8 @@ class HotlineController extends Controller
 {
 
     public function create(){
-
+//        $hotline = new Hotline(Category::all());
+//        return $hotline->create();
+        return view('hotline::index');
     }
 }
