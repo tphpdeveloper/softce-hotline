@@ -8,7 +8,7 @@ class HotlineServiceProvider extends ServiceProvider
 {
 
     public function boot(){
-        require_once(dirname(__DIR__).'\Http\routes.php');
+        $this->loadRoutesFrom(dirname(__DIR__).'\Http\routes.php');
         $this->loadViewsFrom(dirname(__DIR__).'\views', 'hotline');
     }
 

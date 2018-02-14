@@ -47,7 +47,7 @@ composer update
 
 $hotline = new AdminMenu();
 $hotline->key('export_hotline')
-        ->label('Hotline')
+        ->label('Експорт товаров для Hotline')
         ->route('admin.hotline.create')
         ->icon('fa-arrow-right');
 $exportMenu->subMenu('export_hotline', $hotline);

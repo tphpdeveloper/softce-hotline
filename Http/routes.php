@@ -7,7 +7,8 @@ Route::group([
     'middleware' => ['web']
     ],function(){
 
-    Route::get('/create', ['as' => 'admin.hotline.create', 'uses' => 'HotlineController@create']);
+    Route::get('/show', ['as' => 'admin.hotline.show', 'uses' => 'HotlineController@show']);
+    Route::post('/create', ['as' => 'admin.hotline.create', 'uses' => 'HotlineController@create']);
 
 });
 
