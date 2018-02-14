@@ -12,6 +12,8 @@ use Mage2\Ecommerce\Models\Database\Configuration;
 use Mage2\Ecommerce\Models\Database\ConfigurationCurrency;
 use Mage2\Ecommerce\Models\Database\Availability;
 use File;
+use Illuminate\Http\Request;
+use Validator;
 
 class HotlineController extends Controller
 {
@@ -28,6 +30,10 @@ class HotlineController extends Controller
         ]);
     }
 
+    /**
+     * Show form for select category
+     * @return type
+     */
     public function show(){
 
         $categories = Category::whereNull('parent_id')->with('children')->get();
@@ -38,7 +44,11 @@ class HotlineController extends Controller
         ]);
     }
 
-
+    /**
+     * Write info to the hotline.xml file
+     * @param CreateHotlineRequest $request
+     * @return type
+     */
     public function create(CreateHotlineRequest $request){
 
         $magazine_key = (new Configuration)->hotline_magazine_key;
@@ -55,9 +65,7 @@ class HotlineController extends Controller
         //get availability data
         $availability = Availability::query()->pluck('name', 'id')->toArray();
 
-//        dd($request->all());
-
-
+        //generate string from tamplate
         $hotline_template = view('hotline::hotline', [
             'magazine_key' => $magazine_key,
             'categories' => $categories,
@@ -66,6 +74,7 @@ class HotlineController extends Controller
             'availability' => $availability
         ])->render();
 
+        //write to file
         $name_file = 'hotline.xml';
         $bytes_written = File::put(public_path('/'.$name_file), $hotline_template);
 
@@ -73,5 +82,43 @@ class HotlineController extends Controller
             return redirect()->back()->with('errorText', 'Ошибка записи в файл '.$name_file);
         }
         return redirect()->back()->with('notificationText', 'Файл '.$name_file.' успешно создан');
+    }
+
+    /**
+     * Show form settings module
+     * @return type
+     */
+    public function settings(){
+        return view('hotline::settings')
+            ->with('hotline_magazine_key', (new Configuration)->hotline_magazine_key);
+    }
+
+
+    /**
+     * Update settings hotline
+     * @param Request $request
+     * @return type
+     */
+    public function changeSettings(Request $request){
+
+        $validator = Validator::make($request->all(), [
+            'hotline_magazine_key' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()
+                ->route('admin.hotline.settings')
+                ->with('errorText', 'Ошибка обработки запроса')
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        (new Configuration)->where(['configuration_key' => 'hotline_magazine_key'])->update(['configuration_value' => $request->hotline_magazine_key]);
+
+        return redirect()
+            ->route('admin.hotline.settings')
+            ->with('notificationText', 'Данные успешно изменены')
+            ;
+
     }
 }

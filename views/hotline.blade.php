@@ -2,7 +2,7 @@
 '; ?>
 <price>
     <date>{{ date('Y-m-d H:i') }}</date>
-    <firmName>config('app.name')</firmName>
+    <firmName>{{ config('app.name') }}</firmName>
     <firmId>{{ $magazine_key }}</firmId>
 
     @if($rate > 1)
