@@ -14,6 +14,7 @@ use Mage2\Ecommerce\Models\Database\Availability;
 use File;
 use Illuminate\Http\Request;
 use Validator;
+use Mage2\Ecommerce\Models\Database\AttributeValue;
 
 class HotlineController extends Controller
 {
@@ -62,8 +63,11 @@ class HotlineController extends Controller
         //get rate the site
         $current_currency = ConfigurationCurrency::where('main', '1')->first();
 
-        //get availability data
+        //get availability data (Наличие)
         $availability = Availability::query()->pluck('name', 'id')->toArray();
+
+        //get producers name
+        //$producers = AttributeValue::where('attribute_id', 5)->pluck('name', 'id')->toArray();
 
         //generate string from tamplate
         $hotline_template = view('hotline::hotline', [
@@ -71,7 +75,8 @@ class HotlineController extends Controller
             'categories' => $categories,
             'rate' => $current_currency->rate,
             'guaranty' => (is_null($request->product_war) ? null : $this->guaranties[$request->product_war]),
-            'availability' => $availability
+            'availability' => $availability,
+            //'producers' => $producers
         ])->render();
 
         //write to file

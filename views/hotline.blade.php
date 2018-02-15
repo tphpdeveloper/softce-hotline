@@ -29,13 +29,14 @@
         $products = $category->products()->chunk(100, function($products) use ($category, $rate, $availability, $guaranty) {
             if (count($products)) {
                 foreach ($products as $product) {
+                    $name_producer = $product->attributeValue()->wherePivot('attribute_id', 5)->first();
                     ?>
                     <item>
                         <id>{{ $product->id }}</id>
                         <categoryId>{{ $category->id }}</categoryId>
                         <code>{{ $product->sku }}</code>
                         {{--<barcode>48607830</barcode>--}}
-                        <vendor>Nokia</vendor>
+                        <vendor>@if(!is_null($name_producer)) {{ $name_producer->name }}  @endif</vendor>
                         <name>{{ $product->name }}</name>
                         <description>{{ htmlentities($product->description) }}</description>
                         <url>{{ route('product.view', [$product->slug]) }}</url>
